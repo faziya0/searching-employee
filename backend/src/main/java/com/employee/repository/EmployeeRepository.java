@@ -10,11 +10,6 @@ import java.util.List;
 
 
 public interface EmployeeRepository extends JpaRepository<Employee,String> {
-        @Query("select e from Employee e where lower(e.id) like lower(concat('%', :searchElement,'%')) or " +
-                "lower(e.fullName) like lower(concat('%', :searchElement,'%')) or " +
-                "lower(e.department) like lower(concat('%', :searchElement,'%')) or " +
-                "lower(e.structure) like lower(concat('%', :searchElement,'%')) or " +
-                "lower(e.speciality) like lower(concat('%', :searchElement,'%')) or " +
-                "lower(e.email) like lower(concat('%', :searchElement,'%'))")
-        List<Employee> findEmployee(@Param("searchElement") String searchElement);
+        @Query("select e from Employee e where concat(lower(e.id),lower(e.fullName),lower(e.department),lower(e.email),lower(e.structure),lower(e.speciality)) like lower(concat('%', ?1,'%'))")
+        List<Employee> findEmployee(String searchElement);
 }
